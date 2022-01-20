@@ -26,7 +26,7 @@ class Aredis {
     alog.info(`${this.hashName} >> HSET >>${k}:${JSON.stringify(v).length}characters`);
     this.client.hSet(this.hashName, key, JSON.stringify(value));
     // expired after 3 days (auto remove)
-    this.client.expire(this.hashName, 3 * 24 * 60 * 60);
+    this.client.expire(this.hashName, this.option.expire);
   }
 
 
