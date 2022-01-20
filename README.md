@@ -2,6 +2,12 @@ I. Description
 
 This is a simple redis wrapper using `promise` and allow use `async/await` only work with HASH :
 
+option parameter at `build()` follow Client options of `NodeRedis` and 2 addtion properties by `aredis-xyz`:
+   - prefix
+   - hashName
+
+@see https://github.com/NodeRedis/node-redis#user-content-options-object-properties
+ 
 
 II. Install
 
@@ -18,6 +24,6 @@ III. Uninstall
 IV. Using
 
 ```js
-    const aredis = require('aredis-xyz').build('POST');// default prefix is AREDIS- final hash format by AREDIS-POST
+    const aredis = require('aredis-xyz').build(option);// default prefix is AREDIS- final hash format by AREDIS-POST
 
 ```

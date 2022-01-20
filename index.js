@@ -141,16 +141,23 @@ class Aredis {
 }
 // singleton
 let instance = null;
-const getInstance = () => {
+const getInstance = (option) => {
   if (!instance) {
-    instance = new Aredis();
+    instance = new Aredis(option);
   }
   return instance;
 }
 
 // builder
-exports.build = (hashName, prefix = 'AREDIS-',) => {
-  const instance = getInstance();
-  instance.hashName = prefix + hashName;
+exports.build = (option) => {
+  if (!option || JSON.stringify(option) === '{}')
+    return false;
+
+  const instance = getInstance(option);
+  instance.hashName = [
+    option.prefix || 'AREDIS-',
+    option.hashName || new Date().toISOString()
+  ].join('');
+  //
   return instance;
 }
