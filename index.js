@@ -24,7 +24,7 @@ class Aredis {
    */
   set(key, value) {
     alog.info(`${this.hashName} >> HSET >>${k}:${JSON.stringify(v).length}characters`);
-    this.client.hset(this.hashName, key, JSON.stringify(value));
+    this.client.hSet(this.hashName, key, JSON.stringify(value));
     // expired after 3 days (auto remove)
     this.client.expire(this.hashName, 3 * 24 * 60 * 60);
   }
@@ -32,7 +32,7 @@ class Aredis {
 
   keys() {
     return new Promise((resolve, reject) => {
-      this.client.hkeys(this.hashName, (err, ls) => {
+      this.client.hKeys(this.hashName, (err, ls) => {
         if (err) {
           reject(err);
         } else {
@@ -44,7 +44,7 @@ class Aredis {
 
   get(key) {
     return new Promise((resolve, reject) => {
-      this.client.hget(this.hashName, key, (err, result) => {
+      this.client.hGet(this.hashName, key, (err, result) => {
         alog.info(`${this.hashName} >> HGET >> ${k}`, Boolean(result));
         if (err)
           return reject(err);
@@ -61,7 +61,7 @@ class Aredis {
 
   getAllByPrefix(prefix) {
     return new Promise((resolve, reject) => {
-      this.client.hgetall(this.hashName, (err, result) => {
+      this.client.hGetAll(this.hashName, (err, result) => {
         alog.info(`${this.hashName} >> GETALL BY PREFIX >>`, { prefix });
         if (err)
           return reject(err);
@@ -92,7 +92,7 @@ class Aredis {
 
   getall() {
     return new Promise((resolve, reject) => {
-      this.client.hgetall(this.hashName, (err, result) => {
+      this.client.hGetAll(this.hashName, (err, result) => {
         alog.info(`${this.hashName} >> HGETALL >>`, Boolean(result));
         if (err)
           return reject(err);
@@ -115,7 +115,7 @@ class Aredis {
 
   getallkey() {
     return new Promise((resolve, reject) => {
-      this.client.hgetall(this.hashName, (err, result) => {
+      this.client.hGetAll(this.hashName, (err, result) => {
         alog.info(`${this.hashName} >> HGETALL >>`, Boolean(result));
         if (err) {
           return reject(err);
@@ -132,7 +132,7 @@ class Aredis {
 
   del(k) {
     alog.info(`${this.hashName} >> HDEL >> ${k}`);
-    this.client.hdel(this.hashName, k);
+    this.client.hDel(this.hashName, k);
   }
 
   quit() {
