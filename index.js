@@ -14,7 +14,7 @@ class Aredis {
     this.client = redis.createClient(options);
     //
     this.client.on('connect', function () {
-      alog.info(`${this.hashName} >>A Redis client connected`);
+      alog.info(`${this.hashName} >>ARedis client connected`);
     })
     this.client.on('error', function (err) {
       alog.error(`${this.hashName} >>Something went wrong ${err}`);
@@ -26,7 +26,6 @@ class Aredis {
    * @param {*} v 
    */
   async set(k, v) {
-    alog.info('>>SET', this.hashName, k);
     alog.info(`${this.hashName} >> HSET >>${k}:${JSON.stringify(v).length}characters`);
     this.client.hSet(this.hashName, k, JSON.stringify(v));
     this.client.expire(this.hashName, this.options.expire);
@@ -35,13 +34,10 @@ class Aredis {
 
 
   async keys() {
-    alog.info('>>KEYS', this.hashName);
     return await this.client.hKeys(this.hashName)
   }
 
   async get(k) {
-    alog.info('>>GET', this.hashName, k);
-
     const result = await this.client.hGet(this.hashName, k);
     alog.info(`${this.hashName} >> HGET >> ${k}`, Boolean(result));
     if (!result)
@@ -54,8 +50,6 @@ class Aredis {
   }
 
   async getAllByPrefix(prefix) {
-    alog.info('>>GETALLBYPREFIX', this.hashName, prefix);
-
     const result = this.client.hGetAll(this.hashName);
     alog.info(`${this.hashName} >> GETALL BY PREFIX >>`, { prefix });
 
@@ -77,8 +71,6 @@ class Aredis {
   }
 
   async getall() {
-    alog.info('>>GETALL', this.hashName);
-
     const result = await this.client.hGetAll(this.hashName);
     alog.info(`${this.hashName} >> HGETALL >>`, Boolean(result));
 
@@ -90,7 +82,6 @@ class Aredis {
   }
 
   async getallkey() {
-    alog.info('>>GETALLKEY', this.hashName);
     const result = await this.client.hGetAll(this.hashName);
     alog.info(`${this.hashName} >> HGETALL >>`, Boolean(result));
     if (!result)
@@ -99,8 +90,6 @@ class Aredis {
   }
 
   async del(k) {
-    alog.info('>>HDEL', this.hashName);
-
     alog.info(`${this.hashName} >> HDEL >> ${k}`);
     await this.client.hDel(this.hashName, k);
   }
