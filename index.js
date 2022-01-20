@@ -111,6 +111,7 @@ let instance = null;
 const getInstance = (option) => {
   if (!instance) {
     instance = new Aredis(option);
+    instance.client.connect();
   }
   return instance;
 }
@@ -125,9 +126,6 @@ exports.build = (option) => {
     option.prefix || 'AREDIS-',
     option.hashName || new Date().toISOString()
   ].join('');
-  if (!instance.client.connected) {
-    instance.client.connect();
-  }
   //
   return instance;
 }
