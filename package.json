@@ -1,5 +1,5 @@
 {
-  "name": "aredis",
+  "name": "aredis-xyz",
   "version": "1.0.2",
   "description": "anph make it to use connect redis from anywhere",
   "main": "index.js",

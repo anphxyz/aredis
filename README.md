@@ -6,18 +6,18 @@ This is a simple redis wrapper using `promise` and allow use `async/await` only 
 II. Install
 
 ``` bash
-    npm i aredis
+    npm i aredis-xyz
 ```
 
 III. Uninstall
 
 ``` bash
-    npm uninstall aredis
+    npm uninstall aredis-xyz
 ```
 
 IV. Using
 
 ```js
-    const aredis = require('aredis').build('POST');// default prefix is AREDIS- final hash format by AREDIS-POST
+    const aredis = require('aredis-xyz').build('POST');// default prefix is AREDIS- final hash format by AREDIS-POST
 
 ```
