@@ -101,7 +101,6 @@ class Aredis {
 
   async getallkey() {
     alog.info('>>GETALLKEY', this.hashName);
-
     return await this.connectAndQuit(async () => {
       const result = await this.client.hGetAll(this.hashName);
       alog.info(`${this.hashName} >> HGETALL >>`, Boolean(result));
