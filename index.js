@@ -27,38 +27,30 @@ class Aredis {
    */
   async set(k, v) {
     alog.info('>>SET', this.hashName, k);
-
-    return await this.connectAndQuit(async () => {
-      alog.info(`${this.hashName} >> HSET >>${k}:${JSON.stringify(v).length}characters`);
-      this.client.hSet(this.hashName, k, JSON.stringify(v));
-      this.client.expire(this.hashName, this.options.expire);
-    });
+    alog.info(`${this.hashName} >> HSET >>${k}:${JSON.stringify(v).length}characters`);
+    this.client.hSet(this.hashName, k, JSON.stringify(v));
+    this.client.expire(this.hashName, this.options.expire);
 
   }
 
 
   async keys() {
     alog.info('>>KEYS', this.hashName);
-
-    return await this.connectAndQuit(
-      async () => await this.client.hKeys(this.hashName)
-    );
+    return await this.client.hKeys(this.hashName)
   }
 
   async get(k) {
     alog.info('>>GET', this.hashName, k);
 
-    return await this.connectAndQuit(async () => {
-      const result = await this.client.hGet(this.hashName, k);
-      alog.info(`${this.hashName} >> HGET >> ${k}`, Boolean(result));
-      if (!result)
-        return null;
-      try {
-        return JSON.parse(result)
-      } catch (error) {
-        alog.error(error)
-      }
-    });
+    const result = await this.client.hGet(this.hashName, k);
+    alog.info(`${this.hashName} >> HGET >> ${k}`, Boolean(result));
+    if (!result)
+      return null;
+    try {
+      return JSON.parse(result)
+    } catch (error) {
+      alog.error(error)
+    }
   }
 
   async getAllByPrefix(prefix) {
@@ -87,46 +79,30 @@ class Aredis {
   async getall() {
     alog.info('>>GETALL', this.hashName);
 
-    await this.connectAndQuit(async () => {
-      const result = await this.client.hGetAll(this.hashName);
-      alog.info(`${this.hashName} >> HGETALL >>`, Boolean(result));
+    const result = await this.client.hGetAll(this.hashName);
+    alog.info(`${this.hashName} >> HGETALL >>`, Boolean(result));
 
-      if (!result)
-        return null
+    if (!result)
+      return null
 
-      const disArr = Object.values(result);
-      return !disArr.length ? [] : disArr.map(JSON.parse)
-    })
+    const disArr = Object.values(result);
+    return !disArr.length ? [] : disArr.map(JSON.parse)
   }
 
   async getallkey() {
     alog.info('>>GETALLKEY', this.hashName);
-    return await this.connectAndQuit(async () => {
-      const result = await this.client.hGetAll(this.hashName);
-      alog.info(`${this.hashName} >> HGETALL >>`, Boolean(result));
-      if (!result)
-        return null
-      return Object.keys(result)
-    })
+    const result = await this.client.hGetAll(this.hashName);
+    alog.info(`${this.hashName} >> HGETALL >>`, Boolean(result));
+    if (!result)
+      return null
+    return Object.keys(result)
   }
 
   async del(k) {
     alog.info('>>HDEL', this.hashName);
 
     alog.info(`${this.hashName} >> HDEL >> ${k}`);
-    await this.connectAndQuit(async () => {
-      await this.client.hDel(this.hashName, k);
-    })
-  }
-
-  async connectAndQuit(fn) {
-    await this.client.connect();
-    try {
-      return await fn();
-    } catch (error) {
-      alog.error(error);
-    }
-    await this.client.quit();
+    await this.client.hDel(this.hashName, k);
   }
 
 }
@@ -149,6 +125,9 @@ exports.build = (option) => {
     option.prefix || 'AREDIS-',
     option.hashName || new Date().toISOString()
   ].join('');
+  if (!instance.client.connected) {
+    instance.client.connect();
+  }
   //
   return instance;
 }
