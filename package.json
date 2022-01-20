@@ -10,7 +10,6 @@
     "type": "git",
     "url": "git+https://github.com/anphxyz/aredis.git"
   },
-  "type": "module",
   "keywords": [
     "redis",
     "aredis",
@@ -23,12 +22,9 @@
     "url": "https://github.com/anphxyz/aredis/issues"
   },
   "homepage": "https://github.com/anphxyz/aredis#readme",
-  "devDependencies": {
-    "chai": "^4.3.4",
-    "mocha": "^9.1.4"
-  },
+  
   "dependencies": {
-    "alog-xyz": "^1.0.2",
+    "alog-xyz": "^1.0.4",
     "redis": "^4.0.2"
   }
 }
