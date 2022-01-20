@@ -1,12 +1,15 @@
 "use strict";
 const redis = require('redis')
-const alog = require('alog-xyz').getInstance(__dirname);
+const alog = require('alog-xyz').getInstance({
+  logName: 'AREDIS'
+});
 
 class Aredis {
 
   hashName = '';
 
   constructor(options) {
+    this.options = options;
     //
     this.client = redis.createClient(options);
     //
@@ -22,11 +25,11 @@ class Aredis {
    * @param {*} k 
    * @param {*} v 
    */
-  set(key, value) {
+  set(k, v) {
     alog.info(`${this.hashName} >> HSET >>${k}:${JSON.stringify(v).length}characters`);
-    this.client.hSet(this.hashName, key, JSON.stringify(value));
+    this.client.hSet(this.hashName, k, JSON.stringify(v));
     // expired after 3 days (auto remove)
-    this.client.expire(this.hashName, this.option.expire);
+    this.client.expire(this.hashName, this.options.expire);
   }
 
 
@@ -42,9 +45,9 @@ class Aredis {
     });
   }
 
-  get(key) {
+  get(k) {
     return new Promise((resolve, reject) => {
-      this.client.hGet(this.hashName, key, (err, result) => {
+      this.client.hGet(this.hashName, k, (err, result) => {
         alog.info(`${this.hashName} >> HGET >> ${k}`, Boolean(result));
         if (err)
           return reject(err);
