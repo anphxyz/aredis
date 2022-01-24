@@ -6,8 +6,6 @@ const alog = require('alog-xyz').getInstance({
 
 class Aredis {
 
-  hashName = '';
-
   constructor(options) {
     this.options = options;
     //
