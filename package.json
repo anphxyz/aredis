@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/anphxyz/aredis#readme",
   "dependencies": {
-    "alog-xyz": "^1.0.6",
+    "alog-xyz": "^1.0.10",
     "redis": "^4.0.2"
   }
 }

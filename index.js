@@ -1,6 +1,6 @@
 "use strict";
 const redis = require('redis')
-const alog = require('alog-xyz').getInstance({
+const alog = require('alog-xyz').getLogger({
   logName: 'AREDIS'
 });
 
