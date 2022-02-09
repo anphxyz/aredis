@@ -24,7 +24,7 @@ class Aredis {
    * @param {*} v 
    */
   async set(k, v) {
-    alog.info(`${this.hashName} >> HSET >>${k}:${JSON.stringify(v).length}characters`);
+    alog.dev(`${this.hashName} >> HSET >>${k}:${JSON.stringify(v).length}characters`);
     this.client.hSet(this.hashName, k, JSON.stringify(v));
     this.client.expire(this.hashName, this.options.expire);
 
@@ -37,7 +37,7 @@ class Aredis {
 
   async get(k) {
     const result = await this.client.hGet(this.hashName, k);
-    alog.info(`${this.hashName} >> HGET >> ${k}`, Boolean(result));
+    alog.dev(`${this.hashName} >> HGET >> ${k}`, Boolean(result));
     if (!result)
       return null;
     try {
@@ -49,7 +49,7 @@ class Aredis {
 
   async getAllByPrefix(prefix) {
     const result = this.client.hGetAll(this.hashName);
-    alog.info(`${this.hashName} >> GETALL BY PREFIX >>`, { prefix });
+    alog.dev(`${this.hashName} >> GETALL BY PREFIX >>`, { prefix });
 
     if (!result)
       return null
@@ -64,13 +64,13 @@ class Aredis {
       .filter(Boolean)
       .map(JSON.parse);
 
-    alog.info('>>>getAllByPrefix', prefix, rs.length);
+    alog.dev('>>>getAllByPrefix', prefix, rs.length);
     return rs;
   }
 
   async getall() {
     const result = await this.client.hGetAll(this.hashName);
-    alog.info(`${this.hashName} >> HGETALL >>`, Boolean(result));
+    alog.dev(`${this.hashName} >> HGETALL >>`, Boolean(result));
 
     if (!result)
       return null
@@ -81,14 +81,14 @@ class Aredis {
 
   async getallkey() {
     const result = await this.client.hGetAll(this.hashName);
-    alog.info(`${this.hashName} >> HGETALL >>`, Boolean(result));
+    alog.dev(`${this.hashName} >> HGETALL >>`, Boolean(result));
     if (!result)
       return null
     return Object.keys(result)
   }
 
   async del(k) {
-    alog.info(`${this.hashName} >> HDEL >> ${k}`);
+    alog.dev(`${this.hashName} >> HDEL >> ${k}`);
     await this.client.hDel(this.hashName, k);
   }
 
