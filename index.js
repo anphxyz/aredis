@@ -48,7 +48,7 @@ class Aredis {
   }
 
   async getAllByPrefix(prefix) {
-    const result = this.client.hGetAll(this.hashName);
+    const result = await this.client.hGetAll(this.hashName);
     alog.dev(`${this.hashName} >> GETALL BY PREFIX >>`, { prefix });
 
     if (!result)
