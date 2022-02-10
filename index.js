@@ -18,6 +18,15 @@ class Aredis {
       alog.error(`${this.hashName} >>Something went wrong ${err}`);
     })
   }
+
+  set hashName(val) {
+    this.hashName = val;
+  }
+
+  get hashName() {
+    return this.hashName;
+  }
+
   /**
    * set 
    * @param {*} k 
