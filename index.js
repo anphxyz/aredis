@@ -12,19 +12,19 @@ class Aredis {
     this.client = redis.createClient(options);
     //
     this.client.on('connect', function () {
-      alog.info(`${this.hashName} >>ARedis client connected`);
+      alog.info(`${this.hash} >>ARedis client connected`);
     })
     this.client.on('error', function (err) {
-      alog.error(`${this.hashName} >>Something went wrong ${err}`);
+      alog.error(`${this.hash} >>Something went wrong ${err}`);
     })
   }
 
   set hashName(val) {
-    this.hashName = val;
+    this.hash = val;
   }
 
   get hashName() {
-    return this.hashName;
+    return this.hash;
   }
 
   /**
@@ -33,20 +33,20 @@ class Aredis {
    * @param {*} v 
    */
   async set(k, v) {
-    alog.dev(`${this.hashName} >> HSET >>${k}:${JSON.stringify(v).length}characters`);
-    this.client.hSet(this.hashName, k, JSON.stringify(v));
-    this.client.expire(this.hashName, this.options.expire);
+    alog.dev(`${this.hash} >> HSET >>${k}:${JSON.stringify(v).length}characters`);
+    this.client.hSet(this.hash, k, JSON.stringify(v));
+    this.client.expire(this.hash, this.options.expire);
 
   }
 
 
   async keys() {
-    return await this.client.hKeys(this.hashName)
+    return await this.client.hKeys(this.hash)
   }
 
   async get(k) {
-    const result = await this.client.hGet(this.hashName, k);
-    alog.dev(`${this.hashName} >> HGET >> ${k}`, Boolean(result));
+    const result = await this.client.hGet(this.hash, k);
+    alog.dev(`${this.hash} >> HGET >> ${k}`, Boolean(result));
     if (!result)
       return null;
     try {
@@ -57,8 +57,8 @@ class Aredis {
   }
 
   async getAllByPrefix(prefix) {
-    const result = await this.client.hGetAll(this.hashName);
-    alog.dev(`${this.hashName} >> GETALL BY PREFIX >>`, { prefix });
+    const result = await this.client.hGetAll(this.hash);
+    alog.dev(`${this.hash} >> GETALL BY PREFIX >>`, { prefix });
 
     if (!result)
       return null
@@ -78,8 +78,8 @@ class Aredis {
   }
 
   async getall() {
-    const result = await this.client.hGetAll(this.hashName);
-    alog.dev(`${this.hashName} >> HGETALL >>`, Boolean(result));
+    const result = await this.client.hGetAll(this.hash);
+    alog.dev(`${this.hash} >> HGETALL >>`, Boolean(result));
 
     if (!result)
       return null
@@ -89,16 +89,16 @@ class Aredis {
   }
 
   async getallkey() {
-    const result = await this.client.hGetAll(this.hashName);
-    alog.dev(`${this.hashName} >> HGETALL >>`, Boolean(result));
+    const result = await this.client.hGetAll(this.hash);
+    alog.dev(`${this.hash} >> HGETALL >>`, Boolean(result));
     if (!result)
       return null
     return Object.keys(result)
   }
 
   async del(k) {
-    alog.dev(`${this.hashName} >> HDEL >> ${k}`);
-    await this.client.hDel(this.hashName, k);
+    alog.dev(`${this.hash} >> HDEL >> ${k}`);
+    await this.client.hDel(this.hash, k);
   }
 
 }
