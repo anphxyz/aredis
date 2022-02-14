@@ -7,7 +7,7 @@ const alog = require('alog-xyz').getLogger({
 class Aredis {
 
   constructor(options) {
-    this.options = options;
+    this.options = { ...options };
     //
     this.client = redis.createClient(options);
     //
@@ -19,8 +19,8 @@ class Aredis {
     })
   }
 
-  set hashName(val) {
-    this.hash = val;
+  set hashName(hName) {
+    this.hash = hName;
   }
 
   get hashName() {
